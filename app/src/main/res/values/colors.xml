@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- PixelOS Light Palette -->
+    <color name="md_theme_light_primary">#0B57D0</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#D3E3FD</color>
+    <color name="md_theme_light_onPrimaryContainer">#041E49</color>
+    <color name="md_theme_light_background">#F8F9FE</color>
+    <color name="md_theme_light_onBackground">#191C1E</color>
+    <color name="md_theme_light_surface">#FFFFFF</color>
+    <color name="md_theme_light_onSurface">#191C1E</color>
+    <color name="md_theme_light_surfaceContainer">#EEF2F8</color>
+    <color name="md_theme_light_outline">#74777F</color>
+
+    <!-- Semantic Financial Colors (Google Pixel Tone) -->
+    <color name="income_green">#1E8E3E</color>
+    <color name="income_container">#CEEAD6</color>
+    <color name="income_text">#0D652D</color>
+    <color name="expense_red">#D93025</color>
+    <color name="expense_container">#FCE8E6</color>
+    <color name="expense_text">#A51D24</color>
+</resources>
