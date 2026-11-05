@@ -19,11 +19,10 @@ jobs:
           java-version: 17
           distribution: temurin
       
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-      
       - name: Build with Gradle
-        run: ./gradlew build --stacktrace
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build --stacktrace
       
       - name: Upload build logs
         if: failure()
