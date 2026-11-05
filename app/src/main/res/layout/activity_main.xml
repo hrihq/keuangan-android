@@ -19,13 +19,42 @@
             android:paddingTop="36dp"
             android:paddingBottom="24dp">
 
+            <!-- PixelOS Brand Header -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_circle"
+                android:backgroundTint="@color/pixelos_accent_primary"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🐴 PixelOS"
+                    android:textColor="@color/pixelos_black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Keuangan"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="32sp"
+                android:textSize="34sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Pencatat pengeluaran &amp; pemasukan pribadi"
+                android:textColor="@color/pixelos_stone"
+                android:textSize="14sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -204,31 +233,37 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnExpense"
-                            style="?attr/materialButtonOutlinedStyle"
+                            style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
                             android:text="Pengeluaran"
-                            app:cornerRadius="18dp" />
+                            android:textColor="?attr/colorOnSurface"
+                            app:cornerRadius="24dp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnIncome"
-                            style="?attr/materialButtonOutlinedStyle"
+                            style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
                             android:text="Pemasukan"
-                            app:cornerRadius="18dp" />
+                            android:textColor="?attr/colorOnSurface"
+                            app:cornerRadius="24dp" />
                     </com.google.android.material.button.MaterialButtonToggleGroup>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSave"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginTop="14dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="16dp"
                         android:text="Simpan Transaksi"
+                        android:textColor="@color/pixelos_black"
                         android:textSize="15sp"
-                        app:cornerRadius="26dp" />
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/pixelos_accent_primary"
+                        app:cornerRadius="28dp"
+                        app:elevation="0dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

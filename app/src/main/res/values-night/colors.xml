@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- PixelOS Dark Palette -->
-    <color name="md_theme_dark_primary">#A8C7FA</color>
-    <color name="md_theme_dark_onPrimary">#003062</color>
-    <color name="md_theme_dark_primaryContainer">#0842A0</color>
-    <color name="md_theme_dark_onPrimaryContainer">#D3E3FD</color>
-    <color name="md_theme_dark_background">#111318</color>
-    <color name="md_theme_dark_onBackground">#E2E2E6</color>
-    <color name="md_theme_dark_surface">#1A1C22</color>
-    <color name="md_theme_dark_onSurface">#E2E2E6</color>
-    <color name="md_theme_dark_surfaceContainer">#20232B</color>
-    <color name="md_theme_dark_outline">#8E919A</color>
+    <!-- PixelOS Authentic Dark Palette -->
+    <color name="pixelos_background">#161612</color>
+    <color name="pixelos_foreground">#24241D</color>
+    <color name="pixelos_accent_primary">#FDE694</color>
+    <color name="pixelos_accent_secondary">#90CEA1</color>
+    <color name="pixelos_black">#121212</color>
+    <color name="pixelos_stone">#C8C6B9</color>
+    <color name="pixelos_stone_muted">#929084</color>
+    <color name="pixelos_outline">#3D3C33</color>
+    <color name="pixelos_white">#FAFAFA</color>
 
-    <!-- Semantic Financial Colors (Google Pixel Tone) -->
-    <color name="income_green">#81C995</color>
-    <color name="income_container">#137333</color>
-    <color name="income_text">#C4EED0</color>
-    <color name="expense_red">#F28B82</color>
-    <color name="expense_container">#C5221F</color>
-    <color name="expense_text">#FAD2CF</color>
+    <!-- Material Theme mappings -->
+    <color name="md_theme_dark_primary">#FDE694</color>
+    <color name="md_theme_dark_onPrimary">#121212</color>
+    <color name="md_theme_dark_primaryContainer">#2D2E24</color>
+    <color name="md_theme_dark_onPrimaryContainer">#FAF0CA</color>
+    <color name="md_theme_dark_background">#161612</color>
+    <color name="md_theme_dark_onBackground">#EAE6D9</color>
+    <color name="md_theme_dark_surface">#1D1E17</color>
+    <color name="md_theme_dark_onSurface">#EAE6D9</color>
+    <color name="md_theme_dark_surfaceContainer">#25261E</color>
+    <color name="md_theme_dark_outline">#424338</color>
+
+    <!-- Semantic Financial Colors -->
+    <color name="income_green">#90CEA1</color>
+    <color name="income_container">#1A4027</color>
+    <color name="income_text">#BCE7C7</color>
+    <color name="expense_red">#F4A79D</color>
+    <color name="expense_container">#450A0A</color>
+    <color name="expense_text">#FFDAD6</color>
 </resources>

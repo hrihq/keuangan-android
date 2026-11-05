@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- PixelOS Light Palette -->
-    <color name="md_theme_light_primary">#0B57D0</color>
-    <color name="md_theme_light_onPrimary">#FFFFFF</color>
-    <color name="md_theme_light_primaryContainer">#D3E3FD</color>
-    <color name="md_theme_light_onPrimaryContainer">#041E49</color>
-    <color name="md_theme_light_background">#F8F9FE</color>
-    <color name="md_theme_light_onBackground">#191C1E</color>
-    <color name="md_theme_light_surface">#FFFFFF</color>
-    <color name="md_theme_light_onSurface">#191C1E</color>
-    <color name="md_theme_light_surfaceContainer">#EEF2F8</color>
-    <color name="md_theme_light_outline">#74777F</color>
+    <!-- PixelOS Authentic Palette (from pixelos.net) -->
+    <color name="pixelos_background">#FFF8E1</color>
+    <color name="pixelos_foreground">#FAF0CA</color>
+    <color name="pixelos_accent_primary">#FDE694</color>
+    <color name="pixelos_accent_secondary">#90CEA1</color>
+    <color name="pixelos_black">#121212</color>
+    <color name="pixelos_stone">#49473E</color>
+    <color name="pixelos_stone_muted">#7A786E</color>
+    <color name="pixelos_outline">#E0D7BA</color>
+    <color name="pixelos_white">#FAFAFA</color>
 
-    <!-- Semantic Financial Colors (Google Pixel Tone) -->
-    <color name="income_green">#1E8E3E</color>
-    <color name="income_container">#CEEAD6</color>
-    <color name="income_text">#0D652D</color>
-    <color name="expense_red">#D93025</color>
-    <color name="expense_container">#FCE8E6</color>
-    <color name="expense_text">#A51D24</color>
+    <!-- Material Theme mappings -->
+    <color name="md_theme_light_primary">#6E5D00</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#FAF0CA</color>
+    <color name="md_theme_light_onPrimaryContainer">#121212</color>
+    <color name="md_theme_light_background">#FFF8E1</color>
+    <color name="md_theme_light_onBackground">#121212</color>
+    <color name="md_theme_light_surface">#FFFDF5</color>
+    <color name="md_theme_light_onSurface">#121212</color>
+    <color name="md_theme_light_surfaceContainer">#FAF0CA</color>
+    <color name="md_theme_light_outline">#D8CDB0</color>
+
+    <!-- Semantic Financial Colors (PixelOS butter & sage aesthetic) -->
+    <color name="income_green">#267344</color>
+    <color name="income_container">#D9F2E0</color>
+    <color name="income_text">#1B5E34</color>
+    <color name="expense_red">#991B1B</color>
+    <color name="expense_container">#FFE4E1</color>
+    <color name="expense_text">#7F1D1D</color>
 </resources>
