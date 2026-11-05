@@ -153,23 +153,44 @@ class MainActivity : AppCompatActivity() {
         val sheetView = layoutInflater.inflate(R.layout.bottom_sheet_add_transaction, null)
         dialog.setContentView(sheetView)
 
-        val etAmount = sheetView.findViewById<TextInputEditText>(R.id.etSheetAmount)
-        val etTitle = sheetView.findViewById<TextInputEditText>(R.id.etSheetTitle)
-        val toggleType = sheetView.findViewById<MaterialButtonToggleGroup>(R.id.toggleSheetType)
-        val chipGroup = sheetView.findViewById<ChipGroup>(R.id.chipGroupCategory)
-        val btnDate = sheetView.findViewById<MaterialButton>(R.id.btnSheetDate)
-        val btnSave = sheetView.findViewById<MaterialButton>(R.id.btnSheetSave)
-        val btnClose = sheetView.findViewById<ImageView>(R.id.btnSheetClose)
+        val etAmount = sheetView.findViewById<android.widget.EditText>(R.id.etModalAmount)
+        val etTitle = sheetView.findViewById<android.widget.EditText>(R.id.etModalTitle)
+        val etNote = sheetView.findViewById<android.widget.EditText>(R.id.etModalNote)
+        val btnTabExpense = sheetView.findViewById<TextView>(R.id.btnTabExpense)
+        val btnTabIncome = sheetView.findViewById<TextView>(R.id.btnTabIncome)
+        val chipGroup = sheetView.findViewById<ChipGroup>(R.id.cgCategories)
+        val tvDate = sheetView.findViewById<TextView>(R.id.tvModalDate)
+        val btnSave = sheetView.findViewById<MaterialButton>(R.id.btnModalSave)
+        val btnBack = sheetView.findViewById<View>(R.id.btnBackModal)
 
+        var isIncome = false
         val calendar = Calendar.getInstance()
-        btnDate.text = dateFormat.format(calendar.time)
+        tvDate.text = dateFormat.format(calendar.time)
 
-        btnDate.setOnClickListener {
+        btnTabExpense.setOnClickListener {
+            isIncome = false
+            btnTabExpense.setBackgroundResource(R.drawable.bg_circle)
+            btnTabExpense.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.brand_light_blue))
+            btnTabExpense.setTextColor(ContextCompat.getColor(this, R.color.brand_blue))
+            btnTabIncome.background = null
+            btnTabIncome.setTextColor(ContextCompat.getColor(this, R.color.brand_text_secondary))
+        }
+
+        btnTabIncome.setOnClickListener {
+            isIncome = true
+            btnTabIncome.setBackgroundResource(R.drawable.bg_circle)
+            btnTabIncome.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.income_container))
+            btnTabIncome.setTextColor(ContextCompat.getColor(this, R.color.income_green))
+            btnTabExpense.background = null
+            btnTabExpense.setTextColor(ContextCompat.getColor(this, R.color.brand_text_secondary))
+        }
+
+        tvDate.setOnClickListener {
             DatePickerDialog(
                 this,
                 { _, year, month, dayOfMonth ->
                     calendar.set(year, month, dayOfMonth)
-                    btnDate.text = dateFormat.format(calendar.time)
+                    tvDate.text = dateFormat.format(calendar.time)
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -177,13 +198,14 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
 
-        btnClose.setOnClickListener {
+        btnBack.setOnClickListener {
             dialog.dismiss()
         }
 
         btnSave.setOnClickListener {
             val amountStr = etAmount.text?.toString()?.trim().orEmpty()
             val title = etTitle.text?.toString()?.trim().orEmpty()
+            val note = etNote.text?.toString()?.trim().orEmpty()
 
             if (amountStr.isEmpty()) {
                 etAmount.error = "Masukkan nominal"
@@ -196,20 +218,18 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val isIncome = toggleType.checkedButtonId == R.id.btnSheetIncome
-
             val category = when (chipGroup.checkedChipId) {
-                R.id.chipMakanan -> "Makanan"
+                R.id.chipFood -> "Makanan"
                 R.id.chipTransport -> "Transport"
-                R.id.chipBelanja -> "Belanja"
-                R.id.chipTagihan -> "Tagihan"
-                R.id.chipHiburan -> "Hiburan"
-                R.id.chipLainnya -> "Lainnya"
+                R.id.chipBills -> "Tagihan"
+                R.id.chipShopping -> "Belanja"
+                R.id.chipEntertainment -> "Hiburan"
+                R.id.chipHealth -> "Kesehatan"
                 else -> if (isIncome) "Gaji" else "Makanan"
             }
 
-            val note = if (title.isNotEmpty()) title else category
-            db.insert(note, amount, isIncome, category)
+            val itemTitle = if (title.isNotEmpty()) title else category
+            db.insert(itemTitle, amount, isIncome, category, note)
             loadData()
             dialog.dismiss()
             Toast.makeText(this, "Transaksi disimpan", Toast.LENGTH_SHORT).show()
@@ -287,18 +307,16 @@ class MainActivity : AppCompatActivity() {
         override fun getItemCount() = list.size
 
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            private val tvCategory: TextView = view.findViewById(R.id.tvItemCategory)
             private val tvTitle: TextView = view.findViewById(R.id.tvItemTitle)
             private val tvDate: TextView = view.findViewById(R.id.tvItemDate)
             private val tvAmount: TextView = view.findViewById(R.id.tvItemAmount)
-            private val ivIcon: ImageView = view.findViewById(R.id.ivCategoryIcon)
-            private val flIconContainer: FrameLayout = view.findViewById(R.id.flCategoryIconContainer)
+            private val ivIcon: ImageView = view.findViewById(R.id.ivTypeIcon)
+            private val flIconContainer: FrameLayout = view.findViewById(R.id.flIconContainer)
 
             fun bind(item: TransactionItem) {
                 val context = itemView.context
-                tvCategory.text = item.category
                 tvTitle.text = item.title
-                tvDate.text = item.date
+                tvDate.text = "${item.category} · ${item.date}"
 
                 when (item.category.lowercase(Locale.ROOT)) {
                     "makanan" -> ivIcon.setImageResource(R.drawable.ic_restaurant)
@@ -318,7 +336,7 @@ class MainActivity : AppCompatActivity() {
                     tvAmount.text = "+ ${currencyFormat.format(item.amount)}"
                     tvAmount.setTextColor(ContextCompat.getColor(context, R.color.income_green))
                     ivIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.income_green))
-                    flIconContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.income_light))
+                    flIconContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.income_container))
                 } else {
                     tvAmount.text = "- ${currencyFormat.format(item.amount)}"
                     tvAmount.setTextColor(ContextCompat.getColor(context, R.color.expense_red))
