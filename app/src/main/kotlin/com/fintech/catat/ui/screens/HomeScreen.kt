@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.sp
 import com.fintech.catat.data.Transaction
 import com.fintech.catat.data.TransactionType
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun HomeScreen(onAddClick: () -> Unit = {}) {

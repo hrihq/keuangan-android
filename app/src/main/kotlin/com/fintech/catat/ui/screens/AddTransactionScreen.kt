@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fintech.catat.data.Category
 import com.fintech.catat.data.TransactionType
-import java.time.LocalDateTime
 
 @Composable
 fun AddTransactionScreen(onBack: () -> Unit = {}) {
