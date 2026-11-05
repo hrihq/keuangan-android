@@ -8,9 +8,9 @@ class SummaryCalculationTest {
     @Test
     fun testBalanceCalculation() {
         val transactions = listOf(
-            TransactionItem(1, "Gaji", 5000000.0, true, "2026-11-04 10:00"),
-            TransactionItem(2, "Makan", 50000.0, false, "2026-11-04 12:00"),
-            TransactionItem(3, "Bensin", 100000.0, false, "2026-11-04 14:00")
+            TransactionItem(1, "Gaji", 5000000.0, true, "Gaji", "2026-11-04 10:00"),
+            TransactionItem(2, "Makan", 50000.0, false, "Makanan", "2026-11-04 12:00"),
+            TransactionItem(3, "Bensin", 100000.0, false, "Transport", "2026-11-04 14:00")
         )
 
         val income = transactions.filter { it.isIncome }.sumOf { it.amount }

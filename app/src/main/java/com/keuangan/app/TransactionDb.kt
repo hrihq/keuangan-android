@@ -13,11 +13,13 @@ data class TransactionItem(
     val title: String,
     val amount: Double,
     val isIncome: Boolean,
-    val date: String
+    val category: String = "Makanan",
+    val date: String,
+    val note: String = ""
 )
 
 // ponytail: SQLiteOpenHelper used over Room. Upgrade to Room if reactive flows, complex joins, or automated schema migrations are required.
-class TransactionDb(context: Context) : SQLiteOpenHelper(context, "keuangan.db", null, 1) {
+class TransactionDb(context: Context) : SQLiteOpenHelper(context, "keuangan.db", null, 2) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
@@ -27,24 +29,34 @@ class TransactionDb(context: Context) : SQLiteOpenHelper(context, "keuangan.db",
                 title TEXT NOT NULL,
                 amount REAL NOT NULL,
                 is_income INTEGER NOT NULL,
-                date TEXT NOT NULL
+                category TEXT NOT NULL DEFAULT 'Makanan',
+                date TEXT NOT NULL,
+                note TEXT NOT NULL DEFAULT ''
             )
             """.trimIndent()
         )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS transactions")
-        onCreate(db)
+        if (oldVersion < 2) {
+            try {
+                db.execSQL("ALTER TABLE transactions ADD COLUMN category TEXT NOT NULL DEFAULT 'Makanan'")
+                db.execSQL("ALTER TABLE transactions ADD COLUMN note TEXT NOT NULL DEFAULT ''")
+            } catch (e: Exception) {
+                // columns may already exist
+            }
+        }
     }
 
-    fun insert(title: String, amount: Double, isIncome: Boolean): Long {
-        val dateStr = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date())
+    fun insert(title: String, amount: Double, isIncome: Boolean, category: String = "Makanan", note: String = ""): Long {
+        val dateStr = SimpleDateFormat("dd MMM, HH:mm", Locale("id", "ID")).format(Date())
         val values = ContentValues().apply {
             put("title", title)
             put("amount", amount)
             put("is_income", if (isIncome) 1 else 0)
+            put("category", category)
             put("date", dateStr)
+            put("note", note)
         }
         return writableDatabase.insert("transactions", null, values)
     }
@@ -52,7 +64,7 @@ class TransactionDb(context: Context) : SQLiteOpenHelper(context, "keuangan.db",
     fun getAll(): List<TransactionItem> {
         val list = mutableListOf<TransactionItem>()
         val cursor = readableDatabase.rawQuery(
-            "SELECT id, title, amount, is_income, date FROM transactions ORDER BY id DESC",
+            "SELECT id, title, amount, is_income, category, date, note FROM transactions ORDER BY id DESC",
             null
         )
         cursor.use {
@@ -63,7 +75,9 @@ class TransactionDb(context: Context) : SQLiteOpenHelper(context, "keuangan.db",
                         title = it.getString(1),
                         amount = it.getDouble(2),
                         isIncome = it.getInt(3) == 1,
-                        date = it.getString(4)
+                        category = it.getString(4) ?: "Makanan",
+                        date = it.getString(5),
+                        note = it.getString(6) ?: ""
                     )
                 )
             }
@@ -90,5 +104,19 @@ class TransactionDb(context: Context) : SQLiteOpenHelper(context, "keuangan.db",
             }
         }
         return Triple(income, expense, income - expense)
+    }
+
+    fun getCategoryExpenses(): List<Pair<String, Double>> {
+        val list = mutableListOf<Pair<String, Double>>()
+        val cursor = readableDatabase.rawQuery(
+            "SELECT category, SUM(amount) FROM transactions WHERE is_income = 0 GROUP BY category ORDER BY SUM(amount) DESC",
+            null
+        )
+        cursor.use {
+            while (it.moveToNext()) {
+                list.add(Pair(it.getString(0) ?: "Lainnya", it.getDouble(1)))
+            }
+        }
+        return list
     }
 }
