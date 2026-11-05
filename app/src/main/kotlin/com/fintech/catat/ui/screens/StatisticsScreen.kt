@@ -19,15 +19,8 @@ import java.time.LocalDateTime
 import java.time.YearMonth
 
 @Composable
-fun StatisticsScreen(transactions: List<Transaction> = emptyList()) {
+fun StatisticsScreen() {
     val currentMonth = YearMonth.now()
-    val monthTransactions = transactions.filter {
-        YearMonth.from(it.date) == currentMonth && it.type == TransactionType.EXPENSE
-    }
-
-    val byCategory = monthTransactions.groupBy { it.category }
-        .mapValues { (_, txs) -> txs.sumOf { it.amount } }
-    val total = byCategory.values.sum()
 
     Column(
         modifier = Modifier
@@ -48,29 +41,21 @@ fun StatisticsScreen(transactions: List<Transaction> = emptyList()) {
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        // Pie chart placeholder (simplified bar representation)
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            shape = RoundedCornerShape(16.dp)
-        ) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(byCategory.entries.toList()) { (category, amount) ->
-                    val percent = if (total > 0) (amount.toFloat() / total * 100).toInt() else 0
+                items(listOf("Makanan 40%", "Transport 25%", "Tagihan 20%", "Lainnya 15%")) { item ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "$category $percent%", fontSize = 12.sp)
+                        Text(text = item, fontSize = 12.sp)
                         LinearProgressIndicator(
-                            progress = percent / 100f,
+                            progress = 0.5f,
                             modifier = Modifier
                                 .weight(1f)
                                 .height(8.dp)
@@ -80,7 +65,6 @@ fun StatisticsScreen(transactions: List<Transaction> = emptyList()) {
                     }
                 }
             }
-        }
 
         // Weekly chart placeholder
         Card(

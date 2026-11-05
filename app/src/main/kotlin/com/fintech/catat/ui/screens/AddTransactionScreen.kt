@@ -22,7 +22,7 @@ import com.fintech.catat.data.TransactionType
 import java.time.LocalDateTime
 
 @Composable
-fun AddTransactionScreen(onBack: () -> Unit = {}, onSave: (String, Long, String, TransactionType) -> Unit = { _, _, _, _ -> }) {
+fun AddTransactionScreen(onBack: () -> Unit = {}) {
     var description by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf(Category.MAKANAN) }
@@ -131,11 +131,7 @@ fun AddTransactionScreen(onBack: () -> Unit = {}, onSave: (String, Long, String,
 
             // Save Button
             Button(
-                onClick = {
-                    if (description.isNotBlank() && amount.isNotBlank()) {
-                        onSave(description, amount.toLong(), selectedCategory.label, transactionType)
-                    }
-                },
+                onClick = { onBack() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),

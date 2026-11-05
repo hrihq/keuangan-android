@@ -21,20 +21,17 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun HomeScreen(
-    transactions: List<Transaction> = emptyList(),
-    totalIncome: Long = 0,
-    totalExpense: Long = 0,
-    onAddClick: () -> Unit = {},
-    modifier: Modifier = Modifier
-) {
-    val balance = totalIncome - totalExpense
+fun HomeScreen(onAddClick: () -> Unit = {}) {
+    val balance = 13830000L
+    val totalIncome = 15000000L
+    val totalExpense = 1170000L
     val budgetLimit = 5000000L
-    val spent = totalExpense
+    val spent = 1170000L
     val budgetPercent = (spent.toFloat() / budgetLimit * 100).toInt().coerceIn(0, 100)
+    val transactions = emptyList<Any>()
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFFAFAFA))
     ) {

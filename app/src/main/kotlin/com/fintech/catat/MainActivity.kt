@@ -3,72 +3,30 @@ package com.fintech.catat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.room.Room
-import com.fintech.catat.data.CatatDatabase
-import com.fintech.catat.data.Transaction
-import com.fintech.catat.data.TransactionType
 import com.fintech.catat.ui.screens.HomeScreen
 import com.fintech.catat.ui.screens.AddTransactionScreen
 import com.fintech.catat.ui.screens.StatisticsScreen
 import com.fintech.catat.ui.theme.CatatKeuanganTheme
-import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 
 class MainActivity : ComponentActivity() {
-    private lateinit var database: CatatDatabase
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        database = Room.databaseBuilder(
-            applicationContext,
-            CatatDatabase::class.java,
-            "catat_database"
-        ).build()
-
         setContent {
             CatatKeuanganTheme {
-                MainApp(database)
+                MainApp()
             }
         }
     }
 }
 
 @Composable
-fun MainApp(database: CatatDatabase) {
+fun MainApp() {
     var currentScreen by remember { mutableStateOf("home") }
-    var transactions by remember { mutableStateOf<List<Transaction>>(emptyList()) }
-    var totalIncome by remember { mutableStateOf(0L) }
-    var totalExpense by remember { mutableStateOf(0L) }
-
-    val scope = rememberCoroutineScope()
-    val dao = database.transactionDao()
-
-    LaunchedEffect(Unit) {
-        scope.launch {
-            dao.getAllTransactions().collect { txs ->
-                transactions = txs
-            }
-        }
-        scope.launch {
-            dao.getTotalIncome().collect { income ->
-                totalIncome = income ?: 0L
-            }
-        }
-        scope.launch {
-            dao.getTotalExpense().collect { expense ->
-                totalExpense = expense ?: 0L
-            }
-        }
-    }
 
     Scaffold(
         bottomBar = {
@@ -110,33 +68,15 @@ fun MainApp(database: CatatDatabase) {
             }
         }
     ) { innerPadding ->
-        when (currentScreen) {
-            "home" -> HomeScreen(
-                transactions = transactions,
-                totalIncome = totalIncome,
-                totalExpense = totalExpense,
-                onAddClick = { currentScreen = "add" },
-                modifier = Modifier.padding(innerPadding)
-            )
-            "add" -> AddTransactionScreen(
-                onBack = { currentScreen = "home" },
-                onSave = { desc, amount, category, type ->
-                    scope.launch {
-                        dao.insert(
-                            Transaction(
-                                description = desc,
-                                amount = amount,
-                                category = category,
-                                type = type,
-                                date = LocalDateTime.now()
-                            )
-                        )
-                        currentScreen = "home"
-                    }
-                }
-            )
-            "stats" -> StatisticsScreen(transactions = transactions)
-            else -> HomeScreen(transactions = transactions, totalIncome = totalIncome, totalExpense = totalExpense)
+        androidx.compose.foundation.layout.Box(
+            modifier = androidx.compose.foundation.layout.Modifier.padding(innerPadding)
+        ) {
+            when (currentScreen) {
+                "home" -> HomeScreen(onAddClick = { currentScreen = "add" })
+                "add" -> AddTransactionScreen(onBack = { currentScreen = "home" })
+                "stats" -> StatisticsScreen()
+                else -> HomeScreen()
+            }
         }
     }
 }
